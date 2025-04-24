@@ -1,5 +1,5 @@
 package entities;
 
-public class Entity {
+public abstract class Entity {
     // TODO: common features
 }

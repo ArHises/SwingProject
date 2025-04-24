@@ -1,5 +1,5 @@
 package entities;
 
-public class Obstacle {
+public class Obstacle extends Entity {
     // TODO: just obstacles...
 }
