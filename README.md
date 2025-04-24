@@ -1,6 +1,6 @@
 # ***This is a Swing project for Ashkelon***
 
-we are just sturted...
+we are just started...
 
 
 ## rough file structure:
