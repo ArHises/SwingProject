@@ -1,7 +1,12 @@
 package main;
 
+import menu.MainFrame;
+
 public class Game {
     public static void main(String[] args) {
-        // TODO: make the start object and run him here...
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            MainFrame frame = new MainFrame();
+            frame.setVisible(true);
+        });
     }
 }
