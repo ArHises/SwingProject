@@ -22,7 +22,6 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Initialize once, avoid duplicates
         gamePanel = new GamePanel(this);
         mainMenu = new MainMenu(this);
         instructions = new InstructionsScreen(this);
@@ -35,18 +34,14 @@ public class MainFrame extends JFrame {
         showCard("menu");
     }
 
-    /**
-     * Switches between cards and handles game pause state.
-     */
     public void showCard(String name) {
         cardLayout.show(mainPanel, name);
         gamePanel.setPaused(!"game".equals(name));
 
         if ("game".equals(name)) {
-            gamePanel.requestFocusInWindow(); // 👈 Add this
+            gamePanel.requestFocusInWindow();
         }
     }
-
 
     public GamePanel getGamePanel() {
         return gamePanel;

@@ -1,44 +1,49 @@
 # ***This is a Swing project for Ashkelon***
 
-we are just started...
+## Java Swing Top-Down Shooter:
 
+A 2D top-down shooter made with **Java Swing**, where the player shoots enemies coming in waves.
+
+## 🔧 Core Features
+
+- **Player**: Moves with keyboard, shoots bullets.
+- **Enemies**: Spawn in waves, move toward player.
+- **Waves**: Each wave increases in difficulty (more/faster enemies).
+- **Bullets**: Fired by player, destroy enemies on hit.
+- **Game Loop**: Uses `Thread` to update and repaint.
 
 ## rough file structure:
 
-        src/
-    │
-    ├── main/
-    │   ├── Game.java                 # מחלקת ה-main, מפעילה את המשחק
-    │   ├── GameWindow.java           # חלון המשחק הראשי
-    │   ├── GamePanel.java            # JPanel בו מתרחש המשחק
-    │   ├── GameLoop.java             # Thread ראשי שמפעיל את המשחק בלולאה
-    │
-    ├── entities/
-    │   ├── Entity.java               # מחלקת בסיס עם תכונות נפוצות
-    │   ├── Player.java               # שחקן
-    │   ├── Enemy.java                # אויב
-    │   ├── Bullet.java               # קליעים
-    │   └── Obstacle.java            # מכשולים
-    │
-    ├── utils/
-    │   ├── InputHandler.java         # אחראי לקלט מהמקלדת
-    │   ├── CollisionDetector.java    # בדיקת התנגשויות
-    │   ├── SoundManager.java         # ניהול סאונד
-    │   └── ScoreManager.java         # ניקוד ושמירה
-    │
-    ├── assets/
-    │   ├── images/                   # תמונות של דמויות ורקעים
-    │   └── sounds/                   # מוזיקה ואפקטים
-    │
-    └── menu/
-    ├── MainMenu.java             # מסך פתיחה עם כפתור "התחל"
-    └── InstructionsScreen.java   # מסך הוראות
-    
-    docs/
-    ├── presentation.pptx             # מצגת להצגה
-    └── README.md                     # תיאור הפרויקט
+    main/ 
+        java/
+            entities/
+                Entity.java
+                Enemy.java
+                Player.java
+            main/
+                Game.java
+                GamePanel.java
+                GameLoop.java
+            menu/
+                MainFrame.java
+                MainMenu.java
+                InstructionsScreen.java
+            utils/
+                EnemySpawner.java
+                InputHandler.java
+                
+        resources/
+            assets/
+                Enemy.png
+                newEnemy.png
 
 
 ## logs:
-    v0.0.1 - setting up
+    v0.0.1 - 
+        1. setting up
+
+    v0.1.0-a - 
+        1. added rough Enemy + EnemySpawner.
+        2. made GamePalen and GameLoop.
+        3. done a little of polish...
 

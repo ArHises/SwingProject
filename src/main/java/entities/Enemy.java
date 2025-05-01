@@ -11,7 +11,7 @@ public class Enemy extends Entity {
         super(x, y, width, height, speed);
         this.player = player;
 
-        URL resource = getClass().getResource("/assets/Enemy.png");
+        URL resource = getClass().getResource("/assets/newEnemy.png");
         if (resource == null) {
             throw new RuntimeException("Could not find /assets/Enemy.png");
         }

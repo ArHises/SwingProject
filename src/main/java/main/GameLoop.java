@@ -1,12 +1,14 @@
 package main;
 
 public class GameLoop extends Thread {
+
+    private final GamePanel GAME_PANEL;
+
     private boolean running = true;
     private volatile boolean paused = false;
-    private final GamePanel gamePanel;
 
     public GameLoop(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+        this.GAME_PANEL = gamePanel;
     }
 
     public void setPaused(boolean paused) {
@@ -15,27 +17,16 @@ public class GameLoop extends Thread {
 
     @Override
     public void run() {
-        final int FPS = 60;
-        final long FRAME_TIME = 1_000_000_000L / FPS;
-
         while (running) {
-            long start = System.nanoTime();
-
             if (!paused) {
-                gamePanel.updateGame();
-                gamePanel.repaint();
+                GAME_PANEL.updateGame();
+                GAME_PANEL.repaint();
             }
 
-            long elapsed = System.nanoTime() - start;
-            long sleep = Math.max(0, FRAME_TIME - elapsed);
-
             try {
-                Thread.sleep(sleep / 1_000_000);
+                Thread.sleep(16); // Roughly 60 FPS (1000 ms / 60 ≈ 16.67)
             } catch (InterruptedException ignored) {}
         }
     }
 
-    public void stopLoop() {
-        running = false;
-    }
 }
