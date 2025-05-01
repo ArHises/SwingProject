@@ -13,7 +13,10 @@ public class MainMenu extends JPanel {
         JButton instructionsButton = new JButton("Instructions");
         JButton exitButton = new JButton("Exit");
 
+//        JButton pauseButton = new JButton("Pause");
+
         startButton.addActionListener(e -> frame.showCard("game"));
+//        pauseButton.addActionListener(e -> frame.showCard("pause"));
         instructionsButton.addActionListener(e -> frame.showCard("instructions"));
         exitButton.addActionListener(e -> System.exit(0));
 

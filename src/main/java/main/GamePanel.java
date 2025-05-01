@@ -43,11 +43,17 @@ public class GamePanel extends JPanel {
         requestFocusInWindow();
         addKeyListener(new InputHandler(PLAYER));
 
-        JButton backButton = new JButton("Back to Menu");
+//        JButton backButton = new JButton("Back to Menu");
+//        // Temporary button settings:
+//        backButton.setBounds(10, 10, 150, 30);
+//        backButton.addActionListener(e -> frame.showCard("menu"));
+//        add(backButton);
+
+        JButton pauseButton = new JButton("Pause");
         // Temporary button settings:
-        backButton.setBounds(10, 10, 150, 30);
-        backButton.addActionListener(e -> frame.showCard("menu"));
-        add(backButton);
+        pauseButton.setBounds(10, 10, 150, 30);
+        pauseButton.addActionListener(e -> frame.showCard("pause"));
+        add(pauseButton);
     }
 
     public void setPaused(boolean paused) {

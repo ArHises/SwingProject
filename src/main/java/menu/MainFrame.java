@@ -12,6 +12,7 @@ public class MainFrame extends JFrame {
     private final GamePanel gamePanel;
     private final MainMenu mainMenu;
     private final InstructionsScreen instructions;
+    private final PauseScreen pauseScreen;
 
     public MainFrame() {
         setTitle("My Game");
@@ -25,10 +26,12 @@ public class MainFrame extends JFrame {
         gamePanel = new GamePanel(this);
         mainMenu = new MainMenu(this);
         instructions = new InstructionsScreen(this);
+        pauseScreen = new PauseScreen(this);
 
         mainPanel.add(mainMenu, "menu");
         mainPanel.add(gamePanel, "game");
         mainPanel.add(instructions, "instructions");
+        mainPanel.add(pauseScreen, "pause");
 
         add(mainPanel);
         showCard("menu");
