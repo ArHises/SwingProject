@@ -6,6 +6,7 @@ import java.net.URL;
 
 public class Enemy extends Entity {
     private final Player player;
+    private int health = 3;
 
     public Enemy(int x, int y, int width, int height, int speed, Player player) {
         super(x, y, width, height, speed);
@@ -52,5 +53,13 @@ public class Enemy extends Entity {
             g.setColor(Color.RED);
             g.fillRect(getX(), getY(), getWidth(), getHeight());
         }
+    }
+
+    public void takeDamage(int amount) {
+        health -= amount;
+    }
+
+    public boolean isDead() {
+        return health <= 0;
     }
 }
