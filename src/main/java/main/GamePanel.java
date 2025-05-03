@@ -20,7 +20,7 @@ public class GamePanel extends JPanel {
     private final ArrayList<Enemy> ENEMIES;
     private final ArrayList<Bullet> BULLETS;
 
-    private final EnemySpawner SPAWNER;
+//    private final EnemySpawner SPAWNER;
     private final GameLoop GAME_LOOP;
 
 //    public GamePanel(MainFrame frame) {
@@ -159,7 +159,7 @@ public class GamePanel extends JPanel {
         PLAYER = new Player(375, 500, 50, 50, 5);
         ENEMIES = new ArrayList<>();
         BULLETS = new ArrayList<>();
-        SPAWNER = new EnemySpawner(ENEMIES, PLAYER);
+//        SPAWNER = new EnemySpawner(ENEMIES, PLAYER);
 
         // --- Input Handling ---
         InputHandler inputHandler = new InputHandler(PLAYER, BULLETS);
@@ -171,15 +171,15 @@ public class GamePanel extends JPanel {
         GAME_LOOP.start();
 
         // --- Pause Button ---
-        JButton pauseButton = new JButton("Pause");
-        pauseButton.setBounds(10, 10, 150, 30);
-        pauseButton.addActionListener(e -> frame.showCard("pause"));
-        add(pauseButton);
+//        JButton pauseButton = new JButton("Pause");
+//        pauseButton.setBounds(10, 10, 150, 30);
+//        pauseButton.addActionListener(e -> frame.showCard("pause"));
+//        add(pauseButton);
     }
 
     public void updateGame() {
         PLAYER.update();
-        SPAWNER.update();
+//        SPAWNER.update();
 
         // Update Enemies
         for (Enemy enemy : ENEMIES) {

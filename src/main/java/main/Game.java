@@ -16,7 +16,7 @@ public class Game {
         window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null);
-        // window.setLayout(null);
+//         window.setLayout(null);
         window.setResizable(false);
     }
 }
