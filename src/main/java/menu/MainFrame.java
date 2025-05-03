@@ -21,7 +21,7 @@ public class MainFrame extends JFrame implements Navigation {
 
         mainMenu = new MainMenu(this);
         instructionScreen = new InstructionScreen(this);
-        gamePanel = new GamePanel(this);
+        gamePanel = new GamePanel(this,this);
         pauseMenu = new PauseMenu(this);
 
         cardPanel.add(instructionScreen, "Instruction");
