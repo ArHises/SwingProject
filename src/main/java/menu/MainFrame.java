@@ -3,18 +3,16 @@ package menu;
 import javax.swing.*;
 import java.awt.*;
 
+import main.GamePanel;
+
 public class MainFrame extends JFrame implements Navigation {
 
     private CardLayout cardLayout;
     private JPanel cardPanel;
-
-    //
     private PauseMenu pauseMenu ;
     private GamePanel gamePanel ;
     private MainMenu mainMenu ;
     private InstructionScreen instructionScreen ;
-
-
 
     public MainFrame() {
 
@@ -31,9 +29,7 @@ public class MainFrame extends JFrame implements Navigation {
         cardPanel.add(gamePanel,"Game Panel");
         cardPanel.add(pauseMenu,"Pause Menu");
 
-
         add(cardPanel);
-
         cardLayout.show(cardPanel, "Main Menu");
     }
 
@@ -50,7 +46,5 @@ public class MainFrame extends JFrame implements Navigation {
     public void switchToMainMenu() {
         cardLayout.show(cardPanel, "Main Menu");
     }
-
-
-    }
+}
 
