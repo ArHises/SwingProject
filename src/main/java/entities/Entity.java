@@ -2,14 +2,15 @@ package entities;
 import java.awt.*;
 
 public abstract class Entity {
-    protected int x, y, width, height;
-    protected int dx, dy; // תנועה
-    protected Image sprite;
+    private int x, y, width, height;
+    private int dx, dy; // תנועה
+    private int speed;
 
-    public Entity(int x, int y, int width, int height, Image sprite) {
+    private Image sprite;
+
+    public Entity(int x, int y, int width, int height) {
         this.x = x; this.y = y;
         this.width = width; this.height = height;
-        this.sprite = sprite;
     }
 
     public abstract void update();
@@ -73,6 +74,14 @@ public abstract class Entity {
 
     public Image getSprite() {
         return sprite;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public void setSprite(Image sprite) {

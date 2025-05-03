@@ -3,8 +3,8 @@ package entities;
 import java.awt.*;
 
 public class Enemy extends Entity {
-    public Enemy(int x, int y, int width, int height, Image sprite) {
-        super(x, y, width, height, sprite);
+    public Enemy(int x, int y, int width, int height) {
+        super(x, y, width, height);
     }
 
     @Override

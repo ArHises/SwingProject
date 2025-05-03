@@ -33,7 +33,6 @@ public class MainFrame extends JFrame implements Navigation {
         cardLayout.show(cardPanel, "Main Menu");
     }
 
-
     public void switchToInstruction () {
         cardLayout.show(cardPanel, "Instruction");
     }
