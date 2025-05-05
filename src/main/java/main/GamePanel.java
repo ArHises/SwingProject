@@ -15,22 +15,18 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel {
 
     private Image image;
-
     private final Player PLAYER;
     private final ArrayList<Enemy> ENEMIES;
     private final ArrayList<Bullet> BULLETS;
-
-//    private final EnemySpawner SPAWNER;
     private final GameLoop GAME_LOOP;
 
     public GamePanel(Navigation navigation, MainFrame frame) {
-        image = new ImageIcon(getClass()
-                .getResource("/Backgrounds/game_screen.jpg")).getImage();
-
+        // ✅ טען רקע כקובץ מקומי
+        image = new ImageIcon("src/Resources/Backgrounds/game_screen.jpg").getImage();
         setLayout(new BorderLayout());
 
-        ImageIcon backIcon = new ImageIcon(getClass()
-                .getResource("/Buttons/back_button.jpg"));
+        // ✅ טען כפתור BACK
+        ImageIcon backIcon = new ImageIcon("src/Resources/Buttons/back_button.jpg");
         Image scaledBackIcon = backIcon.getImage()
                 .getScaledInstance(MainMenu.BUTTON_WIDTH, MainMenu.BUTTON_HEIGHT, Image.SCALE_SMOOTH);
         JButton backButton = new JButton(new ImageIcon(scaledBackIcon));
@@ -42,8 +38,9 @@ public class GamePanel extends JPanel {
         backButton.setOpaque(false);
         backButton.addActionListener(e -> navigation.switchToMainMenu());
 
-        ImageIcon pauseIcon = new ImageIcon(getClass()
-                .getResource("/Buttons/pause_button.jpg"));
+
+        // ✅ טען כפתור PAUSE
+        ImageIcon pauseIcon = new ImageIcon("src/Resources/Buttons/pause_button.jpg");
         Image scaledPauseIcon = pauseIcon.getImage()
                 .getScaledInstance(MainMenu.BUTTON_WIDTH, MainMenu.BUTTON_HEIGHT, Image.SCALE_SMOOTH);
         JButton pauseButton = new JButton(new ImageIcon(scaledPauseIcon));
@@ -55,6 +52,7 @@ public class GamePanel extends JPanel {
         pauseButton.setOpaque(false);
         pauseButton.addActionListener(e -> navigation.switchToPauseMenu());
 
+        // 🔲 מיקום כפתורים
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setOpaque(false);
@@ -66,60 +64,43 @@ public class GamePanel extends JPanel {
         container.setOpaque(false);
         container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         container.add(buttonPanel, BorderLayout.EAST);
-
         add(container, BorderLayout.NORTH);
 
-//        Game Logic part:
-
+        // --- Game Logic part:
         setFocusable(true);
-        setLayout(null);
+        //setLayout(null);
         setBackground(Color.BLACK);
         requestFocusInWindow();
 
-        // --- Initialize Game Entities ---
         PLAYER = new Player(375, 500, 50, 50, 5);
         ENEMIES = new ArrayList<>();
         BULLETS = new ArrayList<>();
-//        SPAWNER = new EnemySpawner(ENEMIES, PLAYER);
 
-        // --- Input Handling ---
         InputHandler inputHandler = new InputHandler(PLAYER, BULLETS);
         addKeyListener(inputHandler);
         addMouseListener(inputHandler);
 
-        // --- Game Loop ---
         GAME_LOOP = new GameLoop(this);
         GAME_LOOP.start();
-
-        // --- Pause Button ---
-//        JButton pauseButton = new JButton("Pause");
-//        pauseButton.setBounds(10, 10, 150, 30);
-//        pauseButton.addActionListener(e -> frame.showCard("pause"));
-//        add(pauseButton);
     }
 
     public void updateGame() {
         PLAYER.update();
-//        SPAWNER.update();
 
-        // Update Enemies
         for (Enemy enemy : ENEMIES) {
             enemy.update();
         }
 
-        // Update Bullets
         for (int i = 0; i < BULLETS.size(); i++) {
             Bullet bullet = BULLETS.get(i);
             bullet.update();
 
-            // Remove bullets off-screen
             if (bullet.getX() < 0 || bullet.getX() > getWidth()
                     || bullet.getY() < 0 || bullet.getY() > getHeight()) {
                 BULLETS.remove(i--);
                 continue;
             }
 
-            // Bullet-Enemy Collision
             for (int j = 0; j < ENEMIES.size(); j++) {
                 Enemy enemy = ENEMIES.get(j);
                 if (bullet.collidesWith(enemy)) {
@@ -148,6 +129,6 @@ public class GamePanel extends JPanel {
             bullet.draw(g);
         }
 
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-    }
+        g.drawImage(image, 0, 0, getWidth(), getHeight(),this);
+}
 }

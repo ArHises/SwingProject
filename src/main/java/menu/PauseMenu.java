@@ -8,13 +8,13 @@ public class PauseMenu extends JPanel {
     private Image backgroundImage;
 
     public PauseMenu(Navigation navigation) {
-        backgroundImage = new ImageIcon(getClass()
-                .getResource("/Backgrounds/pause_screen.jpg")).getImage();
+        // טען את הרקע מתיקייה מקומית
+        backgroundImage = new ImageIcon("src/Resources/Backgrounds/pause_screen.jpg").getImage();
 
         setLayout(new BorderLayout());
 
-        ImageIcon backIcon = new ImageIcon(getClass()
-                .getResource("/Buttons/back_button.jpg"));
+        // טען את כפתור ה־Back מתיקייה מקומית
+        ImageIcon backIcon = new ImageIcon("src/Resources/Buttons/back_button.jpg");
 
         Image scaledBackIcon = backIcon.getImage()
                 .getScaledInstance(
@@ -56,6 +56,6 @@ public class PauseMenu extends JPanel {
         super.paintComponent(g);
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-        }
-    }
+ }
+}
 }
