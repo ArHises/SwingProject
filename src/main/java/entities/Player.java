@@ -51,7 +51,7 @@ public class Player extends Entity {
                 lockedPowerUps.add(powerUp);
             }
         }
-        String randomPowerUp = lockedPowerUps.get(rand.nextInt(lockedPowerUps.size()));
+        String randomPowerUp = lockedPowerUps.get(this.rand.nextInt(lockedPowerUps.size()));
         this.powerUp.replace(randomPowerUp, true);
         System.out.println("You've unlocked: " + randomPowerUp + "!\n" +
                 "Go and see what it can do!");
