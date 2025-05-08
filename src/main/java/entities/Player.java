@@ -1,7 +1,6 @@
 package entities;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 public class Player extends Entity {
@@ -10,25 +9,8 @@ public class Player extends Entity {
 
     public Player(int x, int y, int width, int height, int speed) {
         super(x, y, width, height);
+        setSpeed(speed);
         setSprite(createDummySprite());
-    }
-
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_A -> left = true;
-            case KeyEvent.VK_D -> right = true;
-            case KeyEvent.VK_W -> up = true;
-            case KeyEvent.VK_S -> down = true;
-        }
-    }
-
-    public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_A -> left = false;
-            case KeyEvent.VK_D -> right = false;
-            case KeyEvent.VK_W -> up = false;
-            case KeyEvent.VK_S -> down = false;
-        }
     }
 
     @Override
@@ -36,7 +18,7 @@ public class Player extends Entity {
         if (left) setX(getX() - getSpeed());
         if (right) setX(getX() + getSpeed());
         if (up) setY(getY() - getSpeed());
-        if (down) setY(getY() + getSpeed()); // Fixed: Down should increase Y
+        if (down) setY(getY() + getSpeed());
     }
 
     @Override
@@ -51,4 +33,9 @@ public class Player extends Entity {
         g.fillRect(0, 0, 50, 50);
         return img;
     }
+
+    public void setUp(boolean up) { this.up = up; }
+    public void setDown(boolean down) { this.down = down; }
+    public void setLeft(boolean left) { this.left = left; }
+    public void setRight(boolean right) { this.right = right; }
 }

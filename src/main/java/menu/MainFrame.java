@@ -40,6 +40,7 @@ public class MainFrame extends JFrame implements Navigation {
         cardLayout.show(cardPanel, "Pause Menu");
     }
     public void switchToGamePanel() {
+        gamePanel.requestFocus();
         cardLayout.show(cardPanel, "Game Panel");
     }
     public void switchToMainMenu() {
