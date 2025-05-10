@@ -21,6 +21,10 @@ public class Player extends Entity {
         if (down) setY(getY() + getSpeed());
     }
 
+    public void stopMoving(){
+        left = right = down = up = false;
+    }
+
     @Override
     public void draw(Graphics g) {
         g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
