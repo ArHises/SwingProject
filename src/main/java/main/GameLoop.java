@@ -5,7 +5,7 @@ public class GameLoop extends Thread {
     private final GamePanel GAME_PANEL;
 
     private boolean running = true;
-    private volatile boolean paused = false;
+    private volatile boolean paused = true;
 
     public GameLoop(GamePanel gamePanel) {
         this.GAME_PANEL = gamePanel;

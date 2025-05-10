@@ -7,8 +7,8 @@ public class Player extends Entity {
 
     private boolean left, right, up, down;
 
-    public Player(int x, int y, int width, int height, int speed) {
-        super(x, y, width, height);
+    public Player(int x, int y, int width, int height, int speed, int health) {
+        super(x, y, width, height,speed , health);
         setSpeed(speed);
         setSprite(createDummySprite());
     }
