@@ -12,7 +12,7 @@ import java.util.Random;
 public class EnemySpawner {
 
     private static final int SCREEN_WIDTH = 800;
-    private static final int SCREEN_HEIGHT = 600;
+    private static final int START_HEIGHT = 20;
     private static final int BASIC_ENEMY_WIDTH = 80;
     private static final int BASIC_ENEMY_HEIGHT = 80;
     private static final int BOSS_WIDTH = 120;
@@ -68,7 +68,7 @@ public class EnemySpawner {
         int numberOfEnemies = waveNumber + random.nextInt(3);
         for (int i = 0; i <numberOfEnemies ; i++) {
             int x = random.nextInt(SCREEN_WIDTH); // מיקום רנדומלי על המסך
-            int y = 10;
+            int y = START_HEIGHT;
             // מהירות ובריאות עולים לפי גל
             int speed = 2 + waveNumber / 2;
             int health = 20 + waveNumber * 5;
@@ -88,7 +88,7 @@ public class EnemySpawner {
 
     public void spawnBoss(){
         int x = random.nextInt(SCREEN_WIDTH);
-        int y = 10;
+        int y = START_HEIGHT;
         int speed = 2 + waveNumber / 2;
         int health = 300 + waveNumber * 20;
 

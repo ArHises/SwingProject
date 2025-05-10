@@ -12,13 +12,11 @@ import utils.EnemySpawner;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
 
     private Image image;
     private final Player PLAYER;
-    private final ArrayList<Enemy> ENEMIES;
 //    private final ArrayList<Bullet> BULLETS;
 
     private final EnemySpawner enemySpawner;
@@ -41,7 +39,6 @@ public class GamePanel extends JPanel {
         backButton.setFocusPainted(false);
         backButton.setOpaque(false);
         backButton.addActionListener(e -> navigation.switchToMainMenu());
-
 
         // ✅ טען כפתור PAUSE
         ImageIcon pauseIcon = new ImageIcon("src/Resources/Buttons/pause_button.jpg");
@@ -76,7 +73,6 @@ public class GamePanel extends JPanel {
         requestFocusInWindow();
 
         PLAYER = new Player(375, 500, 50, 50, 5, 100);
-        ENEMIES = new ArrayList<>();
         enemySpawner = new EnemySpawner(PLAYER);
 //        BULLETS = new ArrayList<>();
 
@@ -104,12 +100,6 @@ public class GamePanel extends JPanel {
 
         PLAYER.draw(g);
         enemySpawner.draw(g);
-    }
-
-    @Override
-    public void addNotify() { // for InputHandler, more reliable
-        super.addNotify();
-        requestFocus();
     }
 
     private void setupKeyBindings() {
