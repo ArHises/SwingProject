@@ -1,23 +1,25 @@
 package main;
 
-import entities.Bullet;
+//import entities.Bullet;
 import entities.Enemy;
 import entities.Player;
 import menu.MainFrame;
 import menu.MainMenu;
 import menu.Navigation;
-import utils.InputHandler;
+import utils.EnemySpawner;
+//import utils.InputHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel {
 
     private Image image;
     private final Player PLAYER;
-    private final ArrayList<Enemy> ENEMIES;
-    private final ArrayList<Bullet> BULLETS;
+//    private final ArrayList<Bullet> BULLETS;
+
+    private final EnemySpawner enemySpawner;
     private final GameLoop GAME_LOOP;
 
     public GamePanel(Navigation navigation, MainFrame frame) {
@@ -37,7 +39,6 @@ public class GamePanel extends JPanel {
         backButton.setFocusPainted(false);
         backButton.setOpaque(false);
         backButton.addActionListener(e -> navigation.switchToMainMenu());
-
 
         // ✅ טען כפתור PAUSE
         ImageIcon pauseIcon = new ImageIcon("src/Resources/Buttons/pause_button.jpg");
@@ -68,17 +69,16 @@ public class GamePanel extends JPanel {
 
         // --- Game Logic part:
         setFocusable(true);
-        //setLayout(null);
-        setBackground(Color.BLACK);
+        setupKeyBindings();
         requestFocusInWindow();
 
-        PLAYER = new Player(375, 500, 50, 50, 5);
-        ENEMIES = new ArrayList<>();
-        BULLETS = new ArrayList<>();
+        PLAYER = new Player(375, 500, 50, 50, 5, 100);
+        enemySpawner = new EnemySpawner(PLAYER);
+//        BULLETS = new ArrayList<>();
 
-        InputHandler inputHandler = new InputHandler(PLAYER, BULLETS);
-        addKeyListener(inputHandler);
-        addMouseListener(inputHandler);
+//        InputHandler inputHandler = new InputHandler(BULLETS);
+//        addKeyListener(inputHandler);
+//        addMouseListener(inputHandler);
 
         GAME_LOOP = new GameLoop(this);
         GAME_LOOP.start();
@@ -86,30 +86,7 @@ public class GamePanel extends JPanel {
 
     public void updateGame() {
         PLAYER.update();
-
-        for (Enemy enemy : ENEMIES) {
-            enemy.update();
-        }
-
-        for (int i = 0; i < BULLETS.size(); i++) {
-            Bullet bullet = BULLETS.get(i);
-            bullet.update();
-
-            if (bullet.getX() < 0 || bullet.getX() > getWidth()
-                    || bullet.getY() < 0 || bullet.getY() > getHeight()) {
-                BULLETS.remove(i--);
-                continue;
-            }
-
-            for (int j = 0; j < ENEMIES.size(); j++) {
-                Enemy enemy = ENEMIES.get(j);
-                if (bullet.collidesWith(enemy)) {
-                    ENEMIES.remove(j--);
-                    BULLETS.remove(i--);
-                    break;
-                }
-            }
-        }
+        enemySpawner.update();
     }
 
     public void setPaused(boolean paused) {
@@ -119,16 +96,71 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        PLAYER.draw(g);
-
-        for (Enemy enemy : ENEMIES) {
-            enemy.draw(g);
-        }
-
-        for (Bullet bullet : BULLETS) {
-            bullet.draw(g);
-        }
-
         g.drawImage(image, 0, 0, getWidth(), getHeight(),this);
-}
+
+        PLAYER.draw(g);
+        enemySpawner.draw(g);
+    }
+
+    private void setupKeyBindings() {
+        // tells the component what keys to listen for.
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        // tells it what to do when those keys are pressed or released.
+        ActionMap actionMap = getActionMap();
+
+        // Movement keys
+        bindKey(inputMap,
+                actionMap,
+                "pressed W",
+                "released W",
+                KeyEvent.VK_W,
+                () -> PLAYER.setUp(true),
+                () -> PLAYER.setUp(false));
+        bindKey(inputMap,
+                actionMap,
+                "pressed A",
+                "released A",
+                KeyEvent.VK_A,
+                () -> PLAYER.setLeft(true),
+                () -> PLAYER.setLeft(false));
+        bindKey(inputMap,
+                actionMap,
+                "pressed S",
+                "released S",
+                KeyEvent.VK_S,
+                () -> PLAYER.setDown(true),
+                () -> PLAYER.setDown(false));
+        bindKey(inputMap,
+                actionMap,
+                "pressed D",
+                "released D",
+                KeyEvent.VK_D,
+                () -> PLAYER.setRight(true),
+                () -> PLAYER.setRight(false));
+    }
+
+    private void bindKey(InputMap im,
+                         ActionMap am,
+                         String pressKey,
+                         String releaseKey,
+                         int keyCode,
+                         Runnable onPress,
+                         Runnable onRelease) {
+
+        im.put(KeyStroke.getKeyStroke(keyCode,
+                0, false), pressKey);
+        im.put(KeyStroke.getKeyStroke(keyCode,
+                0, true), releaseKey);
+
+        am.put(pressKey, new AbstractAction() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                onPress.run(); // call the lambda: PLAYER.setUp(true)
+            }
+        });
+        am.put(releaseKey, new AbstractAction() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                onRelease.run(); // call the lambda: PLAYER.setUp(false)
+            }
+        });
+    }
 }
