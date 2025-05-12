@@ -114,29 +114,25 @@ public class GamePanel extends JPanel {
                 "pressed W",
                 "released W",
                 KeyEvent.VK_W,
-                () -> PLAYER.setUp(true),
-                () -> PLAYER.setUp(false));
+                () -> PLAYER.move(KeyEvent.VK_W));
         bindKey(inputMap,
                 actionMap,
                 "pressed A",
                 "released A",
                 KeyEvent.VK_A,
-                () -> PLAYER.setLeft(true),
-                () -> PLAYER.setLeft(false));
+                () -> PLAYER.move(KeyEvent.VK_A));
         bindKey(inputMap,
                 actionMap,
                 "pressed S",
                 "released S",
                 KeyEvent.VK_S,
-                () -> PLAYER.setDown(true),
-                () -> PLAYER.setDown(false));
+                () -> PLAYER.move(KeyEvent.VK_S));
         bindKey(inputMap,
                 actionMap,
                 "pressed D",
                 "released D",
                 KeyEvent.VK_D,
-                () -> PLAYER.setRight(true),
-                () -> PLAYER.setRight(false));
+                () -> PLAYER.move(KeyEvent.VK_D));
     }
 
     private void bindKey(InputMap im,
@@ -144,8 +140,7 @@ public class GamePanel extends JPanel {
                          String pressKey,
                          String releaseKey,
                          int keyCode,
-                         Runnable onPress,
-                         Runnable onRelease) {
+                         Runnable onPress) {
 
         im.put(KeyStroke.getKeyStroke(keyCode,
                 0, false), pressKey);
@@ -155,11 +150,6 @@ public class GamePanel extends JPanel {
         am.put(pressKey, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 onPress.run(); // call the lambda: PLAYER.setUp(true)
-            }
-        });
-        am.put(releaseKey, new AbstractAction() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                onRelease.run(); // call the lambda: PLAYER.setUp(false)
             }
         });
     }
