@@ -90,6 +90,7 @@ public class GamePanel extends JPanel {
     }
 
     public void setPaused(boolean paused) {
+        PLAYER.stopMoving(); // to resolve a bug that the player is stack moving when paused
         GAME_LOOP.setPaused(paused);
     }
 

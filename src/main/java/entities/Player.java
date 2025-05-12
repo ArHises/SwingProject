@@ -88,6 +88,10 @@ public class Player extends Entity {
         }
     }
 
+    public void stopMoving(){
+        left = right = down = up = false;
+    }
+
     @Override
     public void draw(Graphics g) {
         g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
