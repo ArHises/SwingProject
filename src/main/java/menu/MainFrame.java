@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 import main.GamePanel;
+import utils.SoundManager;
+
 
 public class MainFrame extends JFrame implements Navigation {
 
@@ -13,6 +15,8 @@ public class MainFrame extends JFrame implements Navigation {
     private GamePanel gamePanel ;
     private MainMenu mainMenu ;
     private InstructionScreen instructionScreen ;
+    private final SoundManager soundManager = new SoundManager();
+
 
     public MainFrame() {
 
@@ -21,11 +25,12 @@ public class MainFrame extends JFrame implements Navigation {
 
         mainMenu = new MainMenu(this);
         instructionScreen = new InstructionScreen(this);
-        gamePanel = new GamePanel(this,this);
+        gamePanel = new GamePanel(this,this,soundManager);
         pauseMenu = new PauseMenu(this);
 
         cardPanel.add(instructionScreen, "Instruction");
         cardPanel.add(mainMenu,"Main Menu" );
+        soundManager.playLoop("src/Resources/Music/MainMenuSound.wav");
         cardPanel.add(gamePanel,"Game Panel");
         cardPanel.add(pauseMenu,"Pause Menu");
 
@@ -39,16 +44,24 @@ public class MainFrame extends JFrame implements Navigation {
     }
     public  void switchToPauseMenu () {
         gamePanel.setPaused(true);
+        soundManager.playLoop("src/Resources/Music/MainMenuSound.wav");
         cardLayout.show(cardPanel, "Pause Menu");
     }
     public void switchToGamePanel() {
+        soundManager.playLoop("src/Resources/Music/DuringGameMusic.wav");
         gamePanel.setPaused(false);
         gamePanel.requestFocus();
         cardLayout.show(cardPanel, "Game Panel");
     }
     public void switchToMainMenu() {
         gamePanel.setPaused(true);
+        soundManager.playLoop("src/Resources/Music/MainMenuSound.wav");
         cardLayout.show(cardPanel, "Main Menu");
+        cardPanel.remove(gamePanel);
+        gamePanel = new GamePanel(this, this, soundManager);
+        cardPanel.add(gamePanel, "Game Panel");
+        cardPanel.revalidate();
+        cardPanel.repaint();
     }
 }
 
