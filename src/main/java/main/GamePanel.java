@@ -72,7 +72,7 @@ public class GamePanel extends JPanel {
         setupKeyBindings();
         requestFocusInWindow();
 
-        PLAYER = new Player(375, 500, 50, 50, 5, 100);
+        PLAYER = new Player(375, 500);
         enemySpawner = new EnemySpawner(PLAYER);
 //        BULLETS = new ArrayList<>();
 
@@ -115,25 +115,29 @@ public class GamePanel extends JPanel {
                 "pressed W",
                 "released W",
                 KeyEvent.VK_W,
-                () -> PLAYER.move(KeyEvent.VK_W));
+                () -> PLAYER.move(KeyEvent.VK_W),
+                () -> PLAYER.stop(KeyEvent.VK_W));
         bindKey(inputMap,
                 actionMap,
                 "pressed A",
                 "released A",
                 KeyEvent.VK_A,
-                () -> PLAYER.move(KeyEvent.VK_A));
+                () -> PLAYER.move(KeyEvent.VK_A),
+                () -> PLAYER.stop(KeyEvent.VK_A));
         bindKey(inputMap,
                 actionMap,
                 "pressed S",
                 "released S",
                 KeyEvent.VK_S,
-                () -> PLAYER.move(KeyEvent.VK_S));
+                () -> PLAYER.move(KeyEvent.VK_S),
+                () -> PLAYER.stop(KeyEvent.VK_S));
         bindKey(inputMap,
                 actionMap,
                 "pressed D",
                 "released D",
                 KeyEvent.VK_D,
-                () -> PLAYER.move(KeyEvent.VK_D));
+                () -> PLAYER.move(KeyEvent.VK_D),
+                () -> PLAYER.stop(KeyEvent.VK_D));
     }
 
     private void bindKey(InputMap im,
@@ -141,7 +145,8 @@ public class GamePanel extends JPanel {
                          String pressKey,
                          String releaseKey,
                          int keyCode,
-                         Runnable onPress) {
+                         Runnable onPress,
+                         Runnable onRelease) {
 
         im.put(KeyStroke.getKeyStroke(keyCode,
                 0, false), pressKey);
@@ -151,6 +156,12 @@ public class GamePanel extends JPanel {
         am.put(pressKey, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 onPress.run(); // call the lambda: PLAYER.setUp(true)
+            }
+        });
+
+        am.put(releaseKey, new AbstractAction() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                onRelease.run(); // call the lambda: PLAYER.setUp(false)
             }
         });
     }

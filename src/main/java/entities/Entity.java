@@ -25,6 +25,17 @@ public abstract class Entity {
         this.health = health;
     }
 
+    public Entity (int x , int y){
+        this.x = x;
+        this.y = y;
+        this.height = 0;
+        this.width = 0;
+        this.speed = 0;
+        this.dx = 0;
+        this.dy = 0;
+        this.health = 0;
+    }
+
     public void move(){
         x += dx;
         y += dy;

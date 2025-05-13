@@ -4,12 +4,20 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 import main.GamePanel;
 import utils.EnemySpawner;
 
+import javax.swing.*;
+
 public class Player extends Entity {
+
+    private final int PLAYER_HEIGHT = 100;
+    private final int PLAYER_WIDTH = 100;
+    private final int PLAYER_HEALTH = 100;
+    private final int PLAYER_SPEED = 5;
 
     private ArrayList<Enemy> enemies;
     private Enemy boss;
@@ -19,10 +27,24 @@ public class Player extends Entity {
     // in comment quarantine - IDK how else to implement damage :/
     private static final int BOSS_ITERATION = 5;
 
-    public Player(int x, int y, int height, int width, int speed, int health) {
-        super(x, y, height, width, speed , health);
-        setSpeed(speed);
-        setSprite(createDummySprite());
+    private ArrayList<ImageIcon> spritePlayer;
+
+    private boolean up,down,left,right = false;
+
+    public Player(int x, int y) {
+        super(x, y);
+
+        setSpeed(PLAYER_SPEED);
+        setHealth(PLAYER_HEALTH);
+        setWidth(PLAYER_WIDTH);
+        setHeight(PLAYER_HEIGHT);
+
+        spritePlayer = new ArrayList<>();
+        spritePlayer.add(new ImageIcon(Objects.requireNonNull(
+                getClass().getResource("/Player/player_right.png"))));
+        spritePlayer.add(new ImageIcon(Objects.requireNonNull(
+                getClass().getResource("/Player/player_left.png"))));
+        setSprite(spritePlayer.getFirst().getImage());
     }
 
     private void getEnemies(){
@@ -33,22 +55,24 @@ public class Player extends Entity {
         switch(keyCode){
             case KeyEvent.VK_W:
                 if(this.getY() > 0){
-                    this.setY(this.getY() - this.getSpeed());
+                    up = true;
                 }
                 break;
             case KeyEvent.VK_A:
+                setSprite(spritePlayer.get(1).getImage());
                 if(this.getX() > 0){
-                    this.setX(this.getX() - this.getSpeed());
+                    left = true;
                 }
                 break;
             case KeyEvent.VK_S:
                 if(this.getHeight() + this.getY() > GamePanel.HEIGHT){
-                    this.setY(this.getY() + this.getSpeed());
+                    down = true;
                 }
                 break;
             case KeyEvent.VK_D:
+                setSprite(spritePlayer.getFirst().getImage());
                 if(this.getHeight() + this.getX() > GamePanel.WIDTH){
-                    this.setX(this.getX() + this.getSpeed());
+                    right = true;
                 }
         }
     }
@@ -76,9 +100,27 @@ public class Player extends Entity {
         }
     }
 
+    public void stop(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.VK_A -> left = false;
+            case KeyEvent.VK_D -> right = false;
+            case KeyEvent.VK_W -> up = false;
+            case KeyEvent.VK_S -> down = false;
+        }
+    }
+
+    private void toMove(){
+        if (left) setX(getX() - getSpeed());
+        if (right) setX(getX() + getSpeed());
+        if (up) setY(getY() - getSpeed());
+        if (down) setY(getY() + getSpeed());
+    }
+
     @Override
     public void update() {
         getEnemies();
+        toMove();
+
         if (new EnemySpawner(this).getWaveNumber() % BOSS_ITERATION == 0) {
             getBoss();
             levelUp();

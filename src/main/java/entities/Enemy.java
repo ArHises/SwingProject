@@ -10,12 +10,13 @@ public class Enemy extends Entity{
     private int damage;
 
     private long lastHitTime = 0;
-    private static final long HIT_COOLDOWN = 500; // ms
+    private final long HIT_COOLDOWN = 500; // ms
+    private final int BASIC_DAMAGE = 10;
 
     public Enemy(int x, int y, int height, int width, int speed, Player player , int health){
         super(x , y , height , width , speed , health);
         this.player = player;
-        this.damage = 10;
+        this.damage = BASIC_DAMAGE;
         ImageIcon spriteEnemy = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Enemies/basic_enemy.png")));
         setSprite(spriteEnemy.getImage());
     }
