@@ -1,10 +1,14 @@
 package main;
 
 import entities.Player;
+import entities.Projectile;
 import menu.MainMenu;
 import menu.Navigation;
 import utils.EnemySpawner;
+import utils.ProjectileManager;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,6 +19,8 @@ public class GamePanel extends JPanel {
     private final Player PLAYER;
 
     private final EnemySpawner ENEMY_SPAWNER;
+    private final ProjectileManager projectileManager;
+
     private final GameLoop GAME_LOOP;
 
     public GamePanel(Navigation navigation) {
@@ -69,6 +75,24 @@ public class GamePanel extends JPanel {
 
         PLAYER = new Player(375, 500);
         ENEMY_SPAWNER = new EnemySpawner(PLAYER);
+        projectileManager  = new ProjectileManager();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int mouseX = e.getX();
+                int mouseY = e.getY();
+
+                Projectile p = new Projectile(
+                        PLAYER.getX() + PLAYER.getWidth() / 2,
+                        PLAYER.getY() + PLAYER.getHeight() / 2,
+                        mouseX,
+                        mouseY,
+                        25 // Damage
+                );
+                projectileManager.addProjectile(p);
+            }
+        });
 
         GAME_LOOP = new GameLoop(this);
         GAME_LOOP.start();
@@ -77,6 +101,8 @@ public class GamePanel extends JPanel {
     public void updateGame() {
         PLAYER.update();
         ENEMY_SPAWNER.update();
+
+        projectileManager.update(ENEMY_SPAWNER.getEnemies(), getWidth(), getHeight());
     }
 
     public void setPaused(boolean paused) {
@@ -91,6 +117,8 @@ public class GamePanel extends JPanel {
 
         PLAYER.draw(g);
         ENEMY_SPAWNER.draw(g);
+
+        projectileManager.draw(g);
     }
 
     private void setupKeyBindings() {

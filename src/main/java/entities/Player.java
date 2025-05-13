@@ -18,16 +18,12 @@ public class Player extends Entity {
     private final int PLAYER_WIDTH = 100;
     private final int PLAYER_HEALTH = 100;
     private final int PLAYER_SPEED = 5;
-
-    private ArrayList<Enemy> enemies;
-    private Enemy boss;
-    private String[] levelUp = {"speed", "strength", "health"};
-    private Random rand;
-    private static final long HIT_COOLDOWN = 500; //bullet class is
-    // in comment quarantine - IDK how else to implement damage :/
     private static final int BOSS_ITERATION = 5;
 
-    private ArrayList<ImageIcon> spritePlayer;
+    private String[] levelUp = {"speed", "strength", "health"};
+    private Random rand;
+
+    private final ArrayList<ImageIcon> spritePlayer;
 
     private boolean up,down,left,right = false;
 
@@ -45,25 +41,6 @@ public class Player extends Entity {
         spritePlayer.add(new ImageIcon(Objects.requireNonNull(
                 getClass().getResource("/Player/player_left.png"))));
         setSprite(spritePlayer.getFirst().getImage());
-
-
-        // testing:
-        new Thread(() -> {
-            try {
-                while (true){
-                    System.out.println("PlayerX: " + (this.getX() + this.getWidth()) + ", PlayerY: " + (this.getY() + this.getHeight()));
-                    System.out.println("Y: " + (this.getY() + this.getHeight() < Game.WINDOW_HEIGHT));
-                    System.out.println("X: " + (this.getX() + this.getWidth() < Game.WINDOW_WIDTH));
-                    Thread.sleep(500);
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
-    }
-
-    private void getEnemies(){
-        enemies = new EnemySpawner(this).getEnemies();
     }
 
     public void move(int keyCode){
@@ -136,16 +113,7 @@ public class Player extends Entity {
         return this.getY() + this.getHeight() < Game.WINDOW_HEIGHT;
     }
 
-    private void getBoss(){
-        for(Enemy enemy : this.enemies){
-            if(enemy instanceof BossEnemy){
-                this.boss = enemy;
-            }
-        }
-    }
-
     private void levelUp(){
-        if(!this.enemies.contains(this.boss)){
             this.rand = new Random();
             System.out.println("Leveled up...");
             switch(this.levelUp[this.rand.nextInt(this.levelUp.length)]){
@@ -156,21 +124,11 @@ public class Player extends Entity {
                 case "strength":
                     System.out.println("Strength!"); break;
             }
-        }
     }
 
     @Override
     public void update() {
-        getEnemies();
         toMove();
-
-        if (new EnemySpawner(this).getWaveNumber() % BOSS_ITERATION == 0) {
-            getBoss();
-            levelUp();
-        }
-        if(this.getHealth() == 0){
-            setSpeed(0);
-        }
     }
 
     public void stopMoving(){
@@ -180,13 +138,5 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics g) {
         g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
-    }
-
-    private Image createDummySprite() {
-        BufferedImage img = new BufferedImage(50, 50, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = img.getGraphics();
-        g.setColor(Color.BLUE);
-        g.fillRect(0, 0, 50, 50);
-        return img;
     }
 }
