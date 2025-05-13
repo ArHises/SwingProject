@@ -9,14 +9,12 @@ import java.awt.event.ActionEvent;
 public class MainMenu extends JPanel {
 
     private Image image;
-    private static final SoundManager soundManager = new SoundManager();
 
     public static final int BUTTON_WIDTH = 200, BUTTON_HEIGHT = 60;
 
     public MainMenu(Navigation navigation) {
         image = new ImageIcon("src/Resources/Backgrounds/main_menu_screen.jpg").getImage();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        soundManager.play("src/Resources/Music/MainMenuSound.wav");
 
         ImageIcon startIcon = new ImageIcon("src/Resources/Buttons/start_game_button.jpg");
         JButton startGameButton = new JButton(startIcon);
@@ -68,7 +66,6 @@ public class MainMenu extends JPanel {
         startGameButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                soundManager.stop();
                 navigation.switchToGamePanel();
             }
         });

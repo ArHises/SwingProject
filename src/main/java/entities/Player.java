@@ -132,7 +132,7 @@ public class Player extends Entity {
     }
 
     public void stopMoving(){
-        left = right = down = up = false;
+        //       left = right = down = up = false;
     }
 
     @Override

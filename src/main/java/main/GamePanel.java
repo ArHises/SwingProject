@@ -12,9 +12,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import utils.SoundManager;
+
 
 public class GamePanel extends JPanel {
 
+    private final SoundManager soundManager;
+    private final Navigation navigation;
     private Image image;
     private final Player PLAYER;
 
@@ -22,11 +26,21 @@ public class GamePanel extends JPanel {
     private final ProjectileManager projectileManager;
 
     private final GameLoop GAME_LOOP;
+    private boolean gameOver = false;
+    private boolean gameOverSound  = false;
+    private long   gameOverStart = 0L;
 
-    public GamePanel(Navigation navigation) {
+
+    public GamePanel(Navigation navigation,
+                     SoundManager soundManager) {
         // ✅ טען רקע כקובץ מקומי
         image = new ImageIcon("src/Resources/Backgrounds/game_screen.jpg").getImage();
+        this.navigation = navigation;
+        this.soundManager = soundManager;
         setLayout(new BorderLayout());
+        setFocusable(true);
+        requestFocusInWindow();
+
 
         // ✅ טען כפתור BACK
         ImageIcon backIcon = new ImageIcon("src/Resources/Buttons/back_button.jpg");
@@ -99,10 +113,22 @@ public class GamePanel extends JPanel {
     }
 
     public void updateGame() {
+        if (gameOver) {
+            if(!gameOverSound) {
+                soundManager.playOnce("src/Resources/Music/GameOverMusic.wav");
+                gameOverSound = true;
+            }
+            if (System.currentTimeMillis() - gameOverStart >= 5_000) {
+                navigation.switchToMainMenu();
+            }
+            return;
+        }
         PLAYER.update();
         ENEMY_SPAWNER.update();
-
-        projectileManager.update(ENEMY_SPAWNER.getEnemies(), getWidth(), getHeight());
+        if (PLAYER.getHealth() <= 0) {
+            gameOver      = true;
+            gameOverStart = System.currentTimeMillis();
+        }
     }
 
     public void setPaused(boolean paused) {
@@ -118,7 +144,21 @@ public class GamePanel extends JPanel {
         PLAYER.draw(g);
         ENEMY_SPAWNER.draw(g);
 
-        projectileManager.draw(g);
+
+        if (gameOver) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setColor(new Color(255, 0, 0, 200));
+            g2.fillRect(0, 0, getWidth(), getHeight());
+
+            String msg = "YOU DIED";
+            g2.setFont(new Font("Arial", Font.BOLD, 64));
+            FontMetrics fm = g2.getFontMetrics();
+            int x = (getWidth()  - fm.stringWidth(msg)) / 2;
+            int y = (getHeight() + fm.getAscent())      / 2;
+            g2.setColor(Color.WHITE);
+            g2.drawString(msg, x, y);
+            g2.dispose();
+        }
     }
 
     private void setupKeyBindings() {
