@@ -102,7 +102,7 @@ public class GamePanel extends JPanel {
                         PLAYER.getY() + PLAYER.getHeight() / 2,
                         mouseX,
                         mouseY,
-                        25 // Damage
+                        PLAYER.DAMAGE
                 );
                 projectileManager.addProjectile(p);
             }
@@ -129,6 +129,7 @@ public class GamePanel extends JPanel {
             gameOver      = true;
             gameOverStart = System.currentTimeMillis();
         }
+        projectileManager.update(ENEMY_SPAWNER.getEnemies(), getWidth(), getHeight());
     }
 
     public void setPaused(boolean paused) {
@@ -144,6 +145,7 @@ public class GamePanel extends JPanel {
         PLAYER.draw(g);
         ENEMY_SPAWNER.draw(g);
 
+        projectileManager.draw(g);
 
         if (gameOver) {
             Graphics2D g2 = (Graphics2D) g.create();
@@ -184,7 +186,7 @@ public class GamePanel extends JPanel {
                 () -> PLAYER.stop(KeyEvent.VK_A));
         bindKey(inputMap,
                 actionMap,
-                "pressed S",
+                "presed Ss",
                 "released S",
                 KeyEvent.VK_S,
                 () -> PLAYER.move(KeyEvent.VK_S),

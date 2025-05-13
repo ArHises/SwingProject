@@ -27,6 +27,8 @@ public class Player extends Entity {
 
     private boolean up,down,left,right = false;
 
+    public final int DAMAGE = 20;
+
     public Player(int x, int y) {
         super(x, y);
 
