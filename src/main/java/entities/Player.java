@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-import main.GamePanel;
+import main.Game;
 import utils.EnemySpawner;
 
 import javax.swing.*;
@@ -45,6 +45,21 @@ public class Player extends Entity {
         spritePlayer.add(new ImageIcon(Objects.requireNonNull(
                 getClass().getResource("/Player/player_left.png"))));
         setSprite(spritePlayer.getFirst().getImage());
+
+
+        // testing:
+        new Thread(() -> {
+            try {
+                while (true){
+                    System.out.println("PlayerX: " + (this.getX() + this.getWidth()) + ", PlayerY: " + (this.getY() + this.getHeight()));
+                    System.out.println("Y: " + (this.getY() + this.getHeight() < Game.WINDOW_HEIGHT));
+                    System.out.println("X: " + (this.getX() + this.getWidth() < Game.WINDOW_WIDTH));
+                    Thread.sleep(500);
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
     }
 
     private void getEnemies(){
@@ -54,27 +69,71 @@ public class Player extends Entity {
     public void move(int keyCode){
         switch(keyCode){
             case KeyEvent.VK_W:
-                if(this.getY() > 0){
+                if(checkTopBorder()){
                     up = true;
+                } else {
+                    up = false;
                 }
                 break;
             case KeyEvent.VK_A:
                 setSprite(spritePlayer.get(1).getImage());
-                if(this.getX() > 0){
+                if(checkLeftBorder()){
                     left = true;
+                } else {
+                    left = false;
                 }
                 break;
             case KeyEvent.VK_S:
-                if(this.getHeight() + this.getY() > GamePanel.HEIGHT){
+                if(checkBottomBorder()){
                     down = true;
+                } else {
+                    down = false;
                 }
                 break;
             case KeyEvent.VK_D:
                 setSprite(spritePlayer.getFirst().getImage());
-                if(this.getHeight() + this.getX() > GamePanel.WIDTH){
+                if(checkRightBorder()){
                     right = true;
+                } else {
+                    right = false;
                 }
         }
+    }
+
+    public void stop(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.VK_A -> left = false;
+            case KeyEvent.VK_D -> right = false;
+            case KeyEvent.VK_W -> up = false;
+            case KeyEvent.VK_S -> down = false;
+        }
+    }
+
+    private void toMove(){
+        if (left && checkLeftBorder())
+            setX(getX() - getSpeed());
+        if (right && checkRightBorder())
+            setX(getX() + getSpeed());
+        if (up && checkTopBorder())
+            setY(getY() - getSpeed());
+        if (down && checkBottomBorder())
+            setY(getY() + getSpeed());
+    }
+
+    private boolean checkRightBorder(){
+        return this.getX() + this.getWidth() < Game.WINDOW_WIDTH;
+    }
+
+    private boolean checkLeftBorder(){
+        return this.getX() > 0;
+    }
+
+    private boolean checkTopBorder(){
+        return this.getY() > 0;
+    }
+
+    private boolean checkBottomBorder(){
+        return this.getY() + this.getHeight() < Game.WINDOW_HEIGHT;
     }
 
     private void getBoss(){
@@ -98,22 +157,6 @@ public class Player extends Entity {
                     System.out.println("Strength!"); break;
             }
         }
-    }
-
-    public void stop(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.VK_A -> left = false;
-            case KeyEvent.VK_D -> right = false;
-            case KeyEvent.VK_W -> up = false;
-            case KeyEvent.VK_S -> down = false;
-        }
-    }
-
-    private void toMove(){
-        if (left) setX(getX() - getSpeed());
-        if (right) setX(getX() + getSpeed());
-        if (up) setY(getY() - getSpeed());
-        if (down) setY(getY() + getSpeed());
     }
 
     @Override

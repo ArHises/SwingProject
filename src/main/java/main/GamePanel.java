@@ -1,13 +1,9 @@
 package main;
 
-//import entities.Bullet;
-import entities.Enemy;
 import entities.Player;
-import menu.MainFrame;
 import menu.MainMenu;
 import menu.Navigation;
 import utils.EnemySpawner;
-//import utils.InputHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,12 +13,11 @@ public class GamePanel extends JPanel {
 
     private Image image;
     private final Player PLAYER;
-//    private final ArrayList<Bullet> BULLETS;
 
-    private final EnemySpawner enemySpawner;
+    private final EnemySpawner ENEMY_SPAWNER;
     private final GameLoop GAME_LOOP;
 
-    public GamePanel(Navigation navigation, MainFrame frame) {
+    public GamePanel(Navigation navigation) {
         // ✅ טען רקע כקובץ מקומי
         image = new ImageIcon("src/Resources/Backgrounds/game_screen.jpg").getImage();
         setLayout(new BorderLayout());
@@ -73,12 +68,7 @@ public class GamePanel extends JPanel {
         requestFocusInWindow();
 
         PLAYER = new Player(375, 500);
-        enemySpawner = new EnemySpawner(PLAYER);
-//        BULLETS = new ArrayList<>();
-
-//        InputHandler inputHandler = new InputHandler(BULLETS);
-//        addKeyListener(inputHandler);
-//        addMouseListener(inputHandler);
+        ENEMY_SPAWNER = new EnemySpawner(PLAYER);
 
         GAME_LOOP = new GameLoop(this);
         GAME_LOOP.start();
@@ -86,7 +76,7 @@ public class GamePanel extends JPanel {
 
     public void updateGame() {
         PLAYER.update();
-        enemySpawner.update();
+        ENEMY_SPAWNER.update();
     }
 
     public void setPaused(boolean paused) {
@@ -100,7 +90,7 @@ public class GamePanel extends JPanel {
         g.drawImage(image, 0, 0, getWidth(), getHeight(),this);
 
         PLAYER.draw(g);
-        enemySpawner.draw(g);
+        ENEMY_SPAWNER.draw(g);
     }
 
     private void setupKeyBindings() {
