@@ -105,6 +105,7 @@ public class GamePanel extends JPanel {
                         PLAYER.DAMAGE
                 );
                 projectileManager.addProjectile(p);
+                soundManager.makeAShot("src/Resources/Music/GameShot.wav");
             }
         });
 
