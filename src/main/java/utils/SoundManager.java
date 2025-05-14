@@ -35,9 +35,6 @@ public class SoundManager {
         }).start();
     }
 
-    /**
-     * מנגן קובץ פעם אחת בלבד
-     */
     public void playOnce(String path) {
         play(path, false);
     }
