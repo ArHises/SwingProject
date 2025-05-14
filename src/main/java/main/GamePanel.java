@@ -41,7 +41,6 @@ public class GamePanel extends JPanel {
         setFocusable(true);
         requestFocusInWindow();
 
-
         // ✅ טען כפתור BACK
         ImageIcon backIcon = new ImageIcon("src/Resources/Buttons/back_button.jpg");
         Image scaledBackIcon = backIcon.getImage()
