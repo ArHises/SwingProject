@@ -1,44 +1,87 @@
 # ***This is a Swing project for Ashkelon***
 
-we are just started...
+🕹️ Project Description (Basic Overview)
+This is a 2D action game using Java Swing. The structure shows a clean separation of concerns, with code grouped into logical packages:
+
+🔹 **entities/**
+Contains all core game objects:
+
+1. Entity: Base class for movable game objects.
+2. Player, Enemy, BossEnemy, FastEnemy: Different actors with behaviors.
+3. Projectile: Logic for projectiles fired by the player.
+
+🔹 **main/**
+Houses the core game engine classes:
+
+1. Game: The main controller.
+2. GameLoop: Manages the update/render cycle.
+3. GamePanel: The canvas where everything is drawn.
+
+🔹 **menu/**
+Handles navigation between screens:
+
+Menus like MainMenu, PauseMenu, InstructionScreen, etc.
+
+Navigation: Probably helps switch between different panels.
+
+🔹 **utils/**
+Utility and manager classes:
+
+ProjectileManager: Controls all projectile updates and collisions.
+
+EnemySpawner: Spawns enemies.
+
+HealthBar, ScoreManager, SoundManager: UI and gameplay utilities.
+
+🔹 **Resources/**
+Assets used in the game:
+
+Sprites, backgrounds, music, UI buttons, etc.
 
 
-## rough file structure:
 
-        src/
-    │
-    ├── main/
-    │   ├── Game.java                 # מחלקת ה-main, מפעילה את המשחק
-    │   ├── GameWindow.java           # חלון המשחק הראשי
-    │   ├── GamePanel.java            # JPanel בו מתרחש המשחק
-    │   ├── GameLoop.java             # Thread ראשי שמפעיל את המשחק בלולאה
-    │
-    ├── entities/
-    │   ├── Entity.java               # מחלקת בסיס עם תכונות נפוצות
-    │   ├── Player.java               # שחקן
-    │   ├── Enemy.java                # אויב
-    │   ├── Bullet.java               # קליעים
-    │   └── Obstacle.java            # מכשולים
-    │
-    ├── utils/
-    │   ├── InputHandler.java         # אחראי לקלט מהמקלדת
-    │   ├── CollisionDetector.java    # בדיקת התנגשויות
-    │   ├── SoundManager.java         # ניהול סאונד
-    │   └── ScoreManager.java         # ניקוד ושמירה
-    │
-    ├── assets/
-    │   ├── images/                   # תמונות של דמויות ורקעים
-    │   └── sounds/                   # מוזיקה ואפקטים
-    │
-    └── menu/
-    ├── MainMenu.java             # מסך פתיחה עם כפתור "התחל"
-    └── InstructionsScreen.java   # מסך הוראות
-    
-    docs/
-    ├── presentation.pptx             # מצגת להצגה
-    └── README.md                     # תיאור הפרויקט
+    SwingProject/
+    ├── src/
+    │   └── main/
+    │       ├── java/
+    │       │   ├── entities/
+    │       │   │   ├── BossEnemy
+    │       │   │   ├── Enemy
+    │       │   │   ├── Entity
+    │       │   │   ├── FastEnemy
+    │       │   │   ├── Player
+    │       │   │   └── Projectile
+    │       │   ├── main/
+    │       │   │   ├── Game
+    │       │   │   ├── GameLoop
+    │       │   │   └── GamePanel
+    │       │   ├── menu/
+    │       │   │   ├── InstructionScreen
+    │       │   │   ├── MainFrame
+    │       │   │   ├── MainMenu
+    │       │   │   ├── Navigation
+    │       │   │   └── PauseMenu
+    │       │   └── utils/
+    │       │       ├── EnemySpawner
+    │       │       ├── HealthBar
+    │       │       ├── ProjectileManager
+    │       │       ├── ScoreManager
+    │       │       └── SoundManager
+    │       └── Resources/
+    │           ├── Backgrounds/
+    │           ├── Buttons/
+    │           ├── Enemies/
+    │           ├── Music/
+    │           ├── Player/
+    │           └── Projectiles/
 
+*Projectile calculations:*
 
-## logs:
-    v0.0.1 - setting up
-
+                                 (targetX, targetY)
+                                 ●  (Mouse click)
+                                 |
+                                 | direction vector
+                                 |
+    (startX, startY)             ↓
+    ● -----------------> dx, dy (normalized)
+    (Player / Projectile origin)
