@@ -2,13 +2,11 @@ package entities;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
 import main.Game;
-import utils.EnemySpawner;
 
 import javax.swing.*;
 
@@ -22,12 +20,13 @@ public class Player extends Entity {
 
     private String[] levelUp = {"speed", "strength", "health"};
     private Random rand;
+    private int fullHealth;
 
     private final ArrayList<ImageIcon> spritePlayer;
 
     private boolean up,down,left,right = false;
 
-    public final int DAMAGE = 20;
+    private int damage = 20;
 
     public Player(int x, int y) {
         super(x, y);
@@ -36,6 +35,8 @@ public class Player extends Entity {
         setHealth(PLAYER_HEALTH);
         setWidth(PLAYER_WIDTH);
         setHeight(PLAYER_HEIGHT);
+
+        this.fullHealth = PLAYER_HEALTH;
 
         spritePlayer = new ArrayList<>();
         spritePlayer.add(new ImageIcon(Objects.requireNonNull(
@@ -115,17 +116,21 @@ public class Player extends Entity {
         return this.getY() + this.getHeight() < Game.WINDOW_HEIGHT;
     }
 
-    private void levelUp(){
+    public void levelUp(){
             this.rand = new Random();
             System.out.println("Leveled up...");
-            switch(this.levelUp[this.rand.nextInt(this.levelUp.length)]){
-                case "speed": this.setSpeed(this.getSpeed() + 10);
+            String boost = this.levelUp[this.rand.nextInt(this.levelUp.length)];
+            switch(boost){
+                case "speed": this.setSpeed(this.getSpeed() + 2);
                     System.out.println("Speed!"); break;
                 case "health": this.setHealth(this.getHealth() + 10);
-                    System.out.println("Health!"); break;
-                case "strength":
+                    System.out.println("Health!");
+                    fullHealth += 10;
+                    break;
+                case "strength": this.damage += 10;
                     System.out.println("Strength!"); break;
             }
+        System.out.println("New level, bonus: " + boost);
     }
 
     @Override
@@ -134,11 +139,19 @@ public class Player extends Entity {
     }
 
     public void stopMoving(){
-        //       left = right = down = up = false;
+               left = right = down = up = false;
     }
 
     @Override
     public void draw(Graphics g) {
         g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public int getFullHealth() {
+        return fullHealth;
     }
 }

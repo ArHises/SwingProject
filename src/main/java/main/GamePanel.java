@@ -5,6 +5,7 @@ import entities.Projectile;
 import menu.MainMenu;
 import menu.Navigation;
 import utils.EnemySpawner;
+import utils.HealthBar;
 import utils.ProjectileManager;
 
 import java.awt.event.MouseAdapter;
@@ -19,13 +20,15 @@ public class GamePanel extends JPanel {
 
     private final SoundManager soundManager;
     private final Navigation navigation;
-    private Image image;
+    private final Image image;
+
     private final Player PLAYER;
-
+    private final HealthBar HEALTH_BAR;
     private final EnemySpawner ENEMY_SPAWNER;
-    private final ProjectileManager projectileManager;
-
+    private final ProjectileManager PROJECTILE_MANAGER;
     private final GameLoop GAME_LOOP;
+
+    private int currentWave;
     private boolean gameOver = false;
     private boolean gameOverSound  = false;
     private long   gameOverStart = 0L;
@@ -86,9 +89,13 @@ public class GamePanel extends JPanel {
         setupKeyBindings();
         requestFocusInWindow();
 
+
         PLAYER = new Player(375, 500);
+        HEALTH_BAR = new HealthBar(PLAYER);
         ENEMY_SPAWNER = new EnemySpawner(PLAYER);
-        projectileManager  = new ProjectileManager();
+        PROJECTILE_MANAGER = new ProjectileManager();
+
+        this.currentWave = ENEMY_SPAWNER.getWaveNumber();
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -101,9 +108,9 @@ public class GamePanel extends JPanel {
                         PLAYER.getY() + PLAYER.getHeight() / 2,
                         mouseX,
                         mouseY,
-                        PLAYER.DAMAGE
+                        PLAYER.getDamage()
                 );
-                projectileManager.addProjectile(p);
+                PROJECTILE_MANAGER.addProjectile(p);
                 soundManager.makeAShot("src/Resources/Music/GameShot.wav");
             }
         });
@@ -123,13 +130,20 @@ public class GamePanel extends JPanel {
             }
             return;
         }
+
         PLAYER.update();
         ENEMY_SPAWNER.update();
+        PROJECTILE_MANAGER.update(ENEMY_SPAWNER.getEnemies(), getWidth(), getHeight());
+
         if (PLAYER.getHealth() <= 0) {
             gameOver      = true;
             gameOverStart = System.currentTimeMillis();
         }
-        projectileManager.update(ENEMY_SPAWNER.getEnemies(), getWidth(), getHeight());
+
+        if(currentWave < ENEMY_SPAWNER.getWaveNumber()){
+            currentWave = ENEMY_SPAWNER.getWaveNumber();
+            PLAYER.levelUp();
+        }
     }
 
     public void setPaused(boolean paused) {
@@ -144,8 +158,8 @@ public class GamePanel extends JPanel {
 
         PLAYER.draw(g);
         ENEMY_SPAWNER.draw(g);
-
-        projectileManager.draw(g);
+        PROJECTILE_MANAGER.draw(g);
+        HEALTH_BAR.draw(g);
 
         if (gameOver) {
             Graphics2D g2 = (Graphics2D) g.create();

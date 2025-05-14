@@ -44,8 +44,8 @@ public class Projectile extends Entity {
     public void animation(){
             long now = System.currentTimeMillis();
             if (now - lastChangeTime >= CHANGE_COOLDOWN) {
-                currentSpriteIndex = (currentSpriteIndex + 1 % spriteProjectiles.size());
-                setSprite(spriteProjectiles.get(1).getImage());
+                currentSpriteIndex = (currentSpriteIndex + 1) % spriteProjectiles.size();
+                setSprite(spriteProjectiles.get(currentSpriteIndex).getImage());
                 lastChangeTime = now;
             }
     }
