@@ -10,28 +10,28 @@ public class HealthBar {
     private final int x;
     private final int y;
     private final int height = 25;
-    private int fullWidth;
 
     private final Player player;
-    private int fullHealth;
 
     public HealthBar(Player player) {
         this.player = player;
-        this.fullHealth = player.getHealth();
-        this.fullWidth = player.getFullHealth() * 2;
         this.x = 100;
         this.y = Game.WINDOW_HEIGHT - height - 50;
     }
 
     public void draw(Graphics g) {
         int currentHealth = player.getHealth();
-        this.fullWidth = player.getFullHealth() * 2;
-        int currentWidth = (int) (((double) currentHealth / fullHealth) * fullWidth);
+        int fullHealth = player.getFullHealth();
+        int barWidth = player.getFullHealth() * 2;
+        int currentWidth = (int) (((double) currentHealth / fullHealth) * barWidth);
+
+        g.setColor(Color.DARK_GRAY);
+        g.fillRoundRect(x, y, barWidth, height, 10, 10);
 
         g.setColor(Color.RED);
-        g.fillRect(x, y, currentWidth, height);
+        g.fillRoundRect(x, y, currentWidth, height, 10, 10);
 
         g.setColor(Color.BLACK);
-        g.drawRect(x, y, fullWidth, height);
+        g.drawRoundRect(x, y, barWidth, height, 10, 10);
     }
 }

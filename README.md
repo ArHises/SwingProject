@@ -25,7 +25,7 @@ Handles navigation between screens:
 
 Menus like MainMenu, PauseMenu, InstructionScreen, etc.
 
-Navigation: Probably helps switch between different panels.
+Navigation: Interface that helps switch between different panels.
 
 🔹 **utils/**
 Utility and manager classes:

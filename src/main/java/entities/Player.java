@@ -121,14 +121,19 @@ public class Player extends Entity {
             System.out.println("Leveled up...");
             String boost = this.levelUp[this.rand.nextInt(this.levelUp.length)];
             switch(boost){
-                case "speed": this.setSpeed(this.getSpeed() + 2);
-                    System.out.println("Speed!"); break;
-                case "health": this.setHealth(this.getHealth() + 10);
+                case "speed":
+                    this.setSpeed(this.getSpeed() + 2);
+                    System.out.println("Speed!");
+                    break;
+                case "health":
+                    this.setHealth(this.getHealth() + 10);
                     System.out.println("Health!");
                     fullHealth += 10;
                     break;
-                case "strength": this.damage += 10;
-                    System.out.println("Strength!"); break;
+                case "strength":
+                    this.damage += 10;
+                    System.out.println("Strength!");
+                    break;
             }
         System.out.println("New level, bonus: " + boost);
     }
