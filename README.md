@@ -1,7 +1,10 @@
-# ***This is a Swing project for Ashkelon***
+# ***Java + Swing Game for Ashkelon College***
 
 🕹️ Project Description (Basic Overview)
 This is a 2D action game using Java Swing. The structure shows a clean separation of concerns, with code grouped into logical packages:
+
+![run and shoot](src/Resources/Backgrounds/main_menu_screen.jpg)
+
 
 🔹 **entities/**
 Contains all core game objects:
@@ -38,7 +41,7 @@ Assets used in the game:
 
 Sprites, backgrounds, music, UI buttons, etc.
 
-
+***Project architecture:***
 
     SwingProject/
     ├── src/
@@ -75,13 +78,17 @@ Sprites, backgrounds, music, UI buttons, etc.
     │           ├── Player/
     │           └── Projectiles/
 
-*Projectile calculations:*
+***Projectile calculations:***
 
-                                 (targetX, targetY)
-                                 ●  (Mouse click)
-                                 |
-                                 | direction vector
-                                 |
-    (startX, startY)             ↓
-    ● -----------------> dx, dy (normalized)
-    (Player / Projectile origin)
+                    (targetX, targetY)
+                             ●  (Mouse click)
+                             ^
+                             | 
+                             | dy
+    (startX, startY)         |
+        ● ------------------>|
+    (Player)      dx
+
+    tan(targetY - startY, targetX - startX) = angle
+    cos(angle) = dx
+    sin(angle) = dy
