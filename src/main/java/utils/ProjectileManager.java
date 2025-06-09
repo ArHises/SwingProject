@@ -16,37 +16,30 @@ public class ProjectileManager {
     }
 
     public void update(List<Enemy> enemies, int panelWidth, int panelHeight) {
-        List<Projectile> toRemove = new ArrayList<>();
-
-        for (Projectile p : projectiles) {
+        var iterator = projectiles.iterator();
+        while (iterator.hasNext()) {
+            Projectile p = iterator.next();
             p.update();
 
-            // Mark for removal if out of bounds
             if (p.isOutOfBounds(panelWidth, panelHeight)) {
-                toRemove.add(p);
+                iterator.remove();
                 continue;
             }
 
-            // Check for collision
             for (Enemy enemy : enemies) {
                 if (p.collidesWith(enemy)) {
                     enemy.setHealth(enemy.getHealth() - p.getDamage());
-                    toRemove.add(p);
+                    iterator.remove();
                     break;
                 }
             }
         }
-
-        projectiles.removeAll(toRemove);
     }
 
     public void draw(Graphics g) {
-        for (Projectile p : projectiles) {
+        // Iterate over a copy to avoid ConcurrentModificationException
+        for (Projectile p : new ArrayList<>(projectiles)) {
             p.draw(g);
         }
-    }
-
-    public void clear() {
-        projectiles.clear();
     }
 }
